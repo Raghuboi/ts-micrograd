@@ -47,6 +47,9 @@
     "prepublishOnly": "npm run clean && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "dependencies": {
+    "ts-graphviz": "^2.0.0"
+  },
   "devDependencies": {
     "typescript": "^5.0.0"
   }

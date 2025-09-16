@@ -1,20 +1,25 @@
+import { visualize } from "./visualize.js";
+
 type Operation = "+" | "-" | "*" | "/" | undefined;
 
 class Value {
   data: number;
   _prev: Set<Value>;
   _op: Operation;
+  tag: string;
 
   constructor(
     data: number,
     {
       _children = [],
       _op = undefined,
-    }: { _children?: Array<Value>; _op?: Operation } = {}
+      tag,
+    }: { _children?: Array<Value>; _op?: Operation; tag?: string } = {}
   ) {
     this.data = data;
     this._prev = new Set(_children);
     this._op = _op;
+    this.tag = tag || `v${this.data.toFixed(0)}`;
   }
 
   toString(): string {
@@ -52,6 +57,10 @@ class Value {
       _children: [this, other],
       _op: "/",
     });
+  }
+
+  visualize(): string {
+    return visualize(this);
   }
 }
 

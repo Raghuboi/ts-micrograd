@@ -4,4 +4,3 @@
  */
 
 export { Value } from "./engine/value";
-// export { Module, Neuron, Layer, MLP } from "./nn/index";
