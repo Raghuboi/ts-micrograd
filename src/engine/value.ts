@@ -1,5 +1,5 @@
 class Value {
-  data: number | undefined = undefined;
+  data: number;
 
   constructor(data: number) {
     this.data = data;
@@ -12,6 +12,18 @@ class Value {
   // override console.log with custom toString method
   [Symbol.for("nodejs.util.inspect.custom")]() {
     return this.toString();
+  }
+
+  add(other: Value): Value {
+    return new Value(this.data + other.data);
+  }
+
+  multiply(other: Value): Value {
+    return new Value(this.data * other.data);
+  }
+
+  divide(other: Value): Value {
+    return new Value(this.data / other.data);
   }
 }
 
