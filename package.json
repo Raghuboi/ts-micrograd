@@ -1,0 +1,53 @@
+{
+  "name": "ts-micrograd",
+  "version": "1.0.0",
+  "description": "A tiny typescript based autograd engine that implements backpropagation (reverse-mode autodiff) over a dynamically built DAG and a small neural networks library on top of it with a PyTorch-like API. Inspired by karpathy/micrograd.",
+  "keywords": [
+    "machine-learning",
+    "neural-network",
+    "deep-learning",
+    "autograd",
+    "automatic-differentiation",
+    "backpropagation",
+    "gradient",
+    "computational-graph",
+    "pytorch",
+    "tensorflow",
+    "typescript",
+    "ai",
+    "ml",
+    "karpathy",
+    "micrograd",
+    "autodiff",
+    "reverse-mode"
+  ],
+  "license": "ISC",
+  "author": "Raghunath Prabhakar",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist/**/*",
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
