@@ -48,20 +48,10 @@ export function visualize(root: Value): string {
     }
   }
 
-  const dotString = toDot(graph);
-  const nodeCount = nodes.size;
-  const inputCount = Array.from(nodes).filter(n => n._prev.size === 0).length;
-  const opCount = Array.from(nodes).filter(n => n._op).length;
+  return toDot(graph);
+}
 
-  console.log("\n" + "=".repeat(50));
-  console.log("COMPUTATIONAL GRAPH");
-  console.log("=".repeat(50));
-  console.log(`Nodes: ${nodeCount} (${inputCount} inputs, ${opCount} operations)`);
-  console.log(`Final output: ${root.data.toFixed(4)}`);
-  console.log("\nGraph structure (for visualization tools):");
-  console.log("-".repeat(50));
-  console.log(dotString);
-  console.log("=".repeat(50));
-
-  return "";
+export function generateVisualizationUrl(dotString: string): string {
+  const encoded = encodeURIComponent(dotString);
+  return `https://dreampuf.github.io/GraphvizOnline/#${encoded}`;
 }

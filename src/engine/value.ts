@@ -1,4 +1,4 @@
-import { visualize } from "./visualize.js";
+import { visualize, generateVisualizationUrl, trace } from "./visualize.js";
 
 type Operation = "+" | "-" | "*" | "/" | undefined;
 
@@ -19,7 +19,7 @@ class Value {
     this.data = data;
     this._prev = new Set(_children);
     this._op = _op;
-    this.tag = tag || `v${this.data.toFixed(0)}`;
+    this.tag = tag || `v(${this.data.toFixed(2)})`;
   }
 
   toString(): string {
@@ -60,7 +60,20 @@ class Value {
   }
 
   visualize(): string {
-    return visualize(this);
+    const dotString = visualize(this);
+    const url = generateVisualizationUrl(dotString);
+
+    const { nodes } = trace(this);
+    const nodeCount = nodes.size;
+    const inputCount = Array.from(nodes).filter(
+      (n) => n._prev.size === 0
+    ).length;
+    const opCount = Array.from(nodes).filter((n) => n._op).length;
+
+    console.log(
+      `Computational Graph: ${nodeCount} nodes (${inputCount} inputs, ${opCount} operations)`
+    );
+    return `👀 View: ${url}`;
   }
 }
 
