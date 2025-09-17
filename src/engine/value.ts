@@ -4,6 +4,7 @@ type Operation = "+" | "-" | "*" | "/" | undefined;
 
 class Value {
   data: number;
+  grad: number = 0;
   _prev: Set<Value>;
   _op: Operation;
   tag: string;
@@ -14,9 +15,16 @@ class Value {
       _children = [],
       _op = undefined,
       tag,
-    }: { _children?: Array<Value>; _op?: Operation; tag?: string } = {}
+      grad = 0,
+    }: {
+      _children?: Array<Value>;
+      _op?: Operation;
+      tag?: string;
+      grad?: number;
+    } = {}
   ) {
     this.data = data;
+    this.grad = grad;
     this._prev = new Set(_children);
     this._op = _op;
     this.tag = tag || `v(${this.data.toFixed(2)})`;

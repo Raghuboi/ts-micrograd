@@ -29,7 +29,7 @@ export function visualize(root: Value): string {
     const uid = `v${counter++}`;
     nodeIds.set(node, uid);
 
-    const label = `${node.tag} | ${node.data.toFixed(4)}`;
+    const label = `${node.tag} | data ${node.data.toFixed(4)} | grad ${node.grad.toFixed(4)}`;
     graph.node(uid, { label, shape: 'record' });
 
     if (node._op) {
