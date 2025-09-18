@@ -1,6 +1,6 @@
 import { visualize, generateVisualizationUrl, trace } from "./visualize.js";
 
-type Operation = "+" | "-" | "*" | "/" | undefined;
+type Operation = "+" | "-" | "*" | "/" | "tanh" | undefined;
 
 class Value {
   data: number;
@@ -64,6 +64,15 @@ class Value {
     return new Value(this.data / other.data, {
       _children: [this, other],
       _op: "/",
+    });
+  }
+
+  tanh(): Value {
+    const e2x = Math.exp(2 * this.data);
+    const result = (e2x - 1) / (e2x + 1);
+    return new Value(result, {
+      _children: [this],
+      _op: "tanh",
     });
   }
 
