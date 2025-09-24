@@ -21,4 +21,13 @@ const n = x1w1_plus_x2w2.add(b);
 n.tag = "n";
 
 const o = n.tanh();
+o.tag = "o";
+
+o.grad = 1.0;
+o._backward();
+n._backward();
+b._backward();
+x1w1_plus_x2w2._backward();
+x2w2._backward();
+x1w1._backward();
 console.log(o.visualize());

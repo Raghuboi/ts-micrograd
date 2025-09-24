@@ -6,6 +6,7 @@ class Value {
   data: number;
   grad: number = 0;
   _prev: Set<Value>;
+  _backward: () => void = () => {};
   _op: Operation;
   tag: string;
 
@@ -16,11 +17,13 @@ class Value {
       _op = undefined,
       tag,
       grad = 0,
+      _backward = () => {},
     }: {
       _children?: Array<Value>;
       _op?: Operation;
       tag?: string;
       grad?: number;
+      _backward?: () => void;
     } = {}
   ) {
     this.data = data;
@@ -28,6 +31,7 @@ class Value {
     this._prev = new Set(_children);
     this._op = _op;
     this.tag = tag || `v(${this.data.toFixed(2)})`;
+    this._backward = _backward;
   }
 
   toString(): string {
@@ -40,10 +44,15 @@ class Value {
   }
 
   add(other: Value): Value {
-    return new Value(this.data + other.data, {
+    const output = new Value(this.data + other.data, {
       _children: [this, other],
       _op: "+",
     });
+    output._backward = () => {
+      this.grad += output.grad;
+      other.grad += output.grad;
+    };
+    return output;
   }
 
   subtract(other: Value): Value {
@@ -54,10 +63,15 @@ class Value {
   }
 
   multiply(other: Value): Value {
-    return new Value(this.data * other.data, {
+    const output = new Value(this.data * other.data, {
       _children: [this, other],
       _op: "*",
     });
+    output._backward = () => {
+      this.grad += other.data * output.grad;
+      other.grad += this.data * output.grad;
+    };
+    return output;
   }
 
   divide(other: Value): Value {
@@ -70,10 +84,14 @@ class Value {
   tanh(): Value {
     const e2x = Math.exp(2 * this.data);
     const result = (e2x - 1) / (e2x + 1);
-    return new Value(result, {
+    const output = new Value(result, {
       _children: [this],
       _op: "tanh",
     });
+    output._backward = () => {
+      this.grad += (1 - result ** 2) * output.grad;
+    };
+    return output;
   }
 
   visualize(): string {
